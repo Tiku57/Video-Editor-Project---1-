@@ -1,0 +1,31 @@
+@import "tailwindcss";
+
+/* Custom Reset for Dark Mode */
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  color-scheme: dark;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #0f172a; /* Matches bg-gray-950 */
+  color: white;
+  overflow: hidden; /* Prevents scrollbars on the main window */
+}
+
+/* Scrollbar Styling for the Timeline */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #1f2937; 
+}
+::-webkit-scrollbar-thumb {
+  background: #4b5563; 
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #6b7280; 
+}
