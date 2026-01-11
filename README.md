@@ -1,6 +1,7 @@
 # React + TypeScript + Vite
-
+```
 This project was developed during the Winter Internship '25 at console.success.
+```
 
 This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
 
