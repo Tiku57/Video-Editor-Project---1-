@@ -1,76 +1,115 @@
-# React + TypeScript + Vite
+# 🎬 PremiereLite: Advanced Browser-Based Video Editor
 ```
 This project was developed during the Winter Internship '25 at console.success.
 ```
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![Project Status](https://img.shields.io/badge/Status-Completed-success)
+![Tech Stack](https://img.shields.io/badge/React-Zustand-blue)
+![Rendering](https://img.shields.io/badge/Rendering-HTML5_Canvas-orange)
 
-Currently, two official plugins are available:
+> **Phase 2 Submission for Advanced Frontend Development Track** > A high-performance, client-side video editing engine capable of multi-track arrangement, real-time scrubbing, and non-destructive trimming.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+🔗 **Live Demo:** [INSERT YOUR VERCEL LINK HERE]  
+📹 **Video Walkthrough:** [INSERT YOUR YOUTUBE LINK HERE]
 
-## React Compiler
+---
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+## ⚡ Key Features
 
-## Expanding the ESLint configuration
+* **Multi-Track Timeline:** Drag-and-drop interface to arrange video and audio clips across different tracks.
+* **Frame-Precise Rendering:** Custom HTML5 Canvas engine for real-time video previews (60fps).
+* **Non-Destructive Editing:** "Split" and "Trim" clips without altering the original source file.
+* **Zoomable Interface:** Dynamic timeline zoom (pixels-per-second) for precise editing.
+* **Smart Audio Sync:** Custom logic to handle audio playback drift and synchronization with the visual playhead.
+* **Memory Optimization:** Efficient handling of `Blob` URLs to prevent browser crashes during large file uploads.
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## 🛠 Tech Stack & Architecture
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+* **Frontend Framework:** React (Vite + TypeScript)
+* **State Management:** **Zustand** (Chosen for transient state updates to avoid React re-render loops during playback).
+* **Rendering Engine:** **HTML5 Canvas API** + `requestAnimationFrame` loop.
+* **Styling:** Tailwind CSS (Dark Mode UI).
+* **Icons:** Lucide React.
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+### 🧠 Engineering Decisions
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+#### 1. The Rendering Loop (Canvas vs DOM)
+Instead of using standard `<video>` tags which are heavy to manipulate in a timeline, this project uses a single **Offscreen Video Element** that feeds a **Canvas**.
+* **Why?** Allows for future implementation of filters, text overlays, and pixel manipulation.
+* **Implementation:** A `requestAnimationFrame` loop draws the current video frame to the canvas based on the global `currentTime` in the Zustand store.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+#### 2. State Management (Zustand)
+Redux was avoided to reduce boilerplate. Zustand was utilized to separate **Transient State** (Playhead position, rapid updates) from **UI State** (Clip arrangement).
+* **Challenge:** Syncing the timeline ruler, the playhead, and the video playback without UI lag.
+* **Solution:** The playback loop updates the store's `currentTime`, which subscribers (the Timeline component) read reactively.
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+#### 3. Handling "Split" Logic
+The editor uses **Non-Destructive Editing**. When a user "cuts" a video:
+1.  We do not slice the actual file (which is slow).
+2.  We clone the clip object in the state.
+3.  We calculate the `offset` (start point in source) and `duration` mathematically.
+4.  The renderer simply seeks to the correct `offset` when playing that specific segment.
+
+#### 4. Memory Management
+Large video files can crash the browser.
+* **Optimization:** Files are loaded as `Blob` objects. `URL.createObjectURL()` is used for previewing.
+* **Cleanup:** `URL.revokeObjectURL()` is triggered when clips are deleted to prevent memory leaks.
+
+---
+
+## 🚀 Getting Started
+
+### Prerequisites
+* Node.js (v16+)
+* npm
+
+### Installation
+
+1.  **Clone the repository**
+    ```bash
+    git clone [https://github.com/YOUR_USERNAME/advanced-video-editor.git](https://github.com/YOUR_USERNAME/advanced-video-editor.git)
+    cd advanced-video-editor
+    ```
+
+2.  **Install dependencies**
+    ```bash
+    npm install
+    ```
+
+3.  **Run the development server**
+    ```bash
+    npm run dev
+    ```
+
+4.  **Build for production**
+    ```bash
+    npm run build
+    ```
+
+---
+
+## 📸 Screenshots
+
+| Timeline UI | Drag & Drop |
+|:---:|:---:|
+| *[Insert a Screenshot of your Timeline]* | *[Insert a Screenshot of Dragging]* |
+
+---
+
+## 🔮 Future Improvements
+
+* **Video Export:** Using `ffmpeg.wasm` to compile the actual video file in the browser.
+* **Waveforms:** Visualizing audio data on the timeline using the Web Audio API.
+* **Keyframes:** Adding opacity/scale animation properties to clips.
+
+---
+
+## 👤 Author
+
+**[Your Name]** * [LinkedIn]([INSERT LINKEDIN URL])
+* [GitHub]([INSERT GITHUB URL])
+
+---
+*Built for the Console.Success Advanced Frontend Engineering Challenge.*
