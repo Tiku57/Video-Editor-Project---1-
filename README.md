@@ -90,14 +90,6 @@ Large video files can crash the browser.
 
 ---
 
-## 📸 Screenshots
-
-| Timeline UI | Drag & Drop |
-|:---:|:---:|
-| *[Insert a Screenshot of your Timeline]* | *[Insert a Screenshot of Dragging]* |
-
----
-
 ## 🔮 Future Improvements
 
 * **Video Export:** Using `ffmpeg.wasm` to compile the actual video file in the browser.
@@ -108,8 +100,7 @@ Large video files can crash the browser.
 
 ## 👤 Author
 
-**[Your Name]** * [LinkedIn]([INSERT LINKEDIN URL])
-* [GitHub]([INSERT GITHUB URL])
+**Aaditya Sattawan** 
 
 ---
 *Built for the Console.Success Advanced Frontend Engineering Challenge.*
