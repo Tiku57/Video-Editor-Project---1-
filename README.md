@@ -2,16 +2,6 @@
 ```
 This project was developed during the Winter Internship '25 at console.success.
 ```
-
-![Project Status](https://img.shields.io/badge/Status-Completed-success)
-![Tech Stack](https://img.shields.io/badge/React-Zustand-blue)
-![Rendering](https://img.shields.io/badge/Rendering-HTML5_Canvas-orange)
-
-> **Phase 2 Submission for Advanced Frontend Development Track** > A high-performance, client-side video editing engine capable of multi-track arrangement, real-time scrubbing, and non-destructive trimming.
-
-🔗 **Live Demo:** [INSERT YOUR VERCEL LINK HERE]  
-📹 **Video Walkthrough:** [INSERT YOUR YOUTUBE LINK HERE]
-
 ---
 
 ## ⚡ Key Features
